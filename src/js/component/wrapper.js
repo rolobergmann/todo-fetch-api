@@ -11,7 +11,6 @@ export class Wrapper extends React.Component {
 				<div className="todo-wrapper">
 					<Header />
 					<TodoInput />
-					<List />
 				</div>
 			</div>
 		);

@@ -4,7 +4,7 @@ import "./todoInput.css";
 export default class TodoInput extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { value: "test" };
+		this.state = { value: "test", list: [] };
 
 		this.addItem = this.addItem.bind(this);
 	}
@@ -13,38 +13,36 @@ export default class TodoInput extends React.Component {
 		console.log(value);
 	}
 
+	handlerSubmit(e) {
+		e.preventDefault();
+		console.log(e);
+	}
+
 	render() {
 		return (
 			<div>
-				<form
-					className="commentForm"
-					onChange={e => this.setState({ value: e.target.value })}>
-					<br />
-					<input type="text" placeholder="What needs to be done?" />
-					<br />
-					{this.state.value}
-					<button
-						type="submit"
-						id="submitbtn"
-						onClick={() => this.addItem(this.state.value)}>
-						Submit
-					</button>
-				</form>
+				<ul className="list-group">
+					<li className="list-group-item">
+						<div className="form-group">
+							<br />
+							<form onSubmit={this.handlerSubmit}>
+								<input
+									type="text"
+									className="form-control-plaintext"
+									placeholder="What needs to be done?"
+									onChange={e =>
+										this.setState({ value: e.target.value })
+									}
+								/>
+							</form>
+						</div>
+					</li>
+					<li className="list-group-item">primer elemento</li>
+					<li className="list-group-item">{this.state.list}</li>
+					<li className="list-group-item">{this.state.list}</li>
+				</ul>
+				{this.state.value}
 			</div>
-			/*<div>
-            
-
-
-				<input
-					placeholder="What needs to be done?"
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onKeyPress={this.addItem}
-				/>
-                
-				<br />
-                {this.state.value}
-            
-			</div>*/
 		);
 	}
 }
