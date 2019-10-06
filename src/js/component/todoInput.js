@@ -4,17 +4,39 @@ import "./todoInput.css";
 export default class TodoInput extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { value: "", list: [] };
+		this.state = {
+			value: "",
+			list: ["holasdfasd"]
+		};
 
 		this.addItem = this.addItem.bind(this);
+		this.removeItem = this.removeItem.bind(this);
+		this.addValue = this.addValue.bind(this);
 	}
 
-	addItem(todo) {
-		todo.preventDefault();
-		let a = <li className="list-group-item">{this.state.value}</li>;
-		let b = this.state.list;
-		b = b.concat(a);
-		this.setState({ list: b });
+	addItem(value) {
+		value.preventDefault();
+		let b = this.state.list.slice();
+		console.log(b);
+		b.push(this.state.value);
+		console.log(b);
+		this.setState({
+			list: b
+		});
+	}
+
+	addValue = event => {
+		this.setState({
+			value: event.target.value
+		});
+	};
+
+	removeItem(id) {
+		console.log("hello");
+
+		this.setState({
+			list: this.state.list.filter((item, index) => item.id !== id)
+		});
 	}
 
 	render() {
@@ -28,16 +50,17 @@ export default class TodoInput extends React.Component {
 								type="text"
 								className="form-control-plaintext"
 								placeholder="What needs to be done?"
-								onChange={e =>
-									this.setState({ value: e.target.value })
-								}
+								onChange={this.addValue}
 							/>
 						</form>
 					</li>
-
 					{this.state.list}
+					{this.state.list.map(a => {
+						<div>
+							<li>{a}</li>
+						</div>;
+					})}
 				</ul>
-				{this.state.value}
 			</div>
 		);
 	}
