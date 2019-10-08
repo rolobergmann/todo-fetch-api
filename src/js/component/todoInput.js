@@ -19,7 +19,7 @@ export default class TodoInput extends React.Component {
 		this.addItem = this.addItem.bind(this);
 		this.removeItem = this.removeItem.bind(this);
 		this.addValue = this.addValue.bind(this);
-		this.toggleHoverState = this.toggleHoverState.bind(this);
+		this.handleMouseHover = this.handleMouseHover.bind(this);
 	}
 
 	handleMouseHover() {
@@ -36,8 +36,12 @@ export default class TodoInput extends React.Component {
 		newText.preventDefault();
 		let b = this.state.list.slice();
 		console.log(b);
-		b.push({ id: this.state.nextId, text: this.itemInput.current.value });
+		b.push({
+			id: this.state.nextId,
+			text: this.itemInput.current.value
+		});
 		this.setState({
+			isHovering: false,
 			list: b,
 			nextId: b.length + 1
 		});
