@@ -1,1 +1,7 @@
-#submitbtn{display:none;}
+.itemText{
+float: left;
+}
+
+.removeItem{
+    float: right;
+}

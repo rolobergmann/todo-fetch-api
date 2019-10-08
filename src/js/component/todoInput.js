@@ -81,15 +81,16 @@ export default class TodoInput extends React.Component {
 					{this.state.list.map(item => {
 						return (
 							<li
-								className="list-group-item"
-								key={item.id}
 								onMouseEnter={this.handleMouseHover}
 								onMouseLeave={this.handleMouseHover}
+								className="list-group-item"
+								key={item.id}
 								id={item.id}>
-								{item.text}
+								<p className="itemText">{item.text}</p>
 
 								{this.state.isHovering && (
 									<a
+										className="removeItem"
 										href="#"
 										onClick={() =>
 											this.removeItem(item.id)
