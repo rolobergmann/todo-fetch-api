@@ -2,105 +2,94 @@ import React from "react";
 import "./todoInput.css";
 
 export default class TodoInput extends React.Component {
-	constructor(props) {
-		super(props);
-		this.itemInput = React.createRef();
-		this.state = {
-			value: "",
-			list: [
-				{ id: 0, text: "Make dinner tonight!" },
-				{ id: 1, text: "Fold the laundry." },
-				{ id: 2, text: "Learn to make a React app!" }
-			],
-			nextId: 3,
-			isHovering: false
-		};
-		this.mhandleMouseHover = this.handleMouseHover.bind(this);
-		this.addItem = this.addItem.bind(this);
-		this.removeItem = this.removeItem.bind(this);
-		this.addValue = this.addValue.bind(this);
-		this.handleMouseHover = this.handleMouseHover.bind(this);
-	}
-
-	handleMouseHover() {
-		this.setState(this.toggleHoverState);
-	}
-
-	toggleHoverState(state) {
-		return {
-			isHovering: !state.isHovering
-		};
-	}
-
-	addItem(newText) {
-		newText.preventDefault();
-		let b = this.state.list.slice();
-		console.log(b);
-		b.push({
-			id: this.state.nextId,
-			text: this.itemInput.current.value
-		});
-		this.setState({
-			isHovering: false,
-			list: b,
-			nextId: b.length + 1
-		});
-		this.itemInput.current.value = "";
-	}
-
-	addValue = event => {
-		this.setState({
-			value: event.target.value
-		});
+	state = {
+		list: { label: "", done: "" }
 	};
 
-	removeItem(id) {
-		console.log("hello", id);
-
-		this.setState({
-			list: this.state.list.filter((item, index) => item.id !== id)
-		});
-	}
+	getApi = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/rolo", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				console.log(resp.ok); // will be true if the response is successfull
+				console.log(resp.status); // the status code = 200 or code = 400 etc.
+				console.log(resp.text()); // will try return the exact result as string
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				//here is were your code should start after the fetch finishes
+				this.setState({ list: data });
+				console.log(data); //this will print on the console the exact object received from the server
+				console.log(this.state.list); //this will print on the console the exact object received from the server
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
+	};
+	newTodoApi = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/rolo", {
+			method: "POST",
+			body: ["tre"],
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				console.log(resp.ok); // will be true if the response is successfull
+				console.log(resp.status); // the status code = 200 or code = 400 etc.
+				console.log(resp.text()); // will try return the exact result as string
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				//here is were your code should start after the fetch finishes
+				console.log(data); //this will print on the console the exact object received from the server
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
+	};
+	deleteApi = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/rolo", {
+			method: "DELETE",
+			body: [],
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				console.log(resp.ok); // will be true if the response is successfull
+				console.log(resp.status); // the status code = 200 or code = 400 etc.
+				console.log(resp.text()); // will try return the exact result as string
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				//here is were your code should start after the fetch finishes
+				console.log(data); //this will print on the console the exact object received from the server
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
+	};
 
 	render() {
 		return (
 			<div>
 				<ul className="list-group">
 					<li className="list-group-item">
-						<br />
-						<form onSubmit={this.addItem}>
-							<input
-								type="text"
-								className="form-control-plaintext"
-								placeholder="What needs to be done?"
-								onChange={this.addValue}
-								ref={this.itemInput}
-							/>
-						</form>
+						<button onClick={this.getApi}>Get!</button>
 					</li>
-					{this.state.list.map(item => {
-						return (
-							<li
-								onMouseEnter={this.handleMouseHover}
-								onMouseLeave={this.handleMouseHover}
-								className="list-group-item"
-								key={item.id}
-								id={item.id}>
-								<p className="itemText">{item.text}</p>
-
-								{this.state.isHovering && (
-									<a
-										className="removeItem"
-										href="#"
-										onClick={() =>
-											this.removeItem(item.id)
-										}>
-										X
-									</a>
-								)}
-							</li>
-						);
-					})}
+					<li className="list-group-item">
+						<button onClick={this.newTodoApi}>Add List!</button>
+					</li>
+					<li className="list-group-item">
+						<button onClick={this.deleteApi}>delete!</button>
+					</li>
 				</ul>
 			</div>
 		);
